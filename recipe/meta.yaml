@@ -10,31 +10,30 @@ source:
   sha256: 2f7a28add00db89d4f2c86485181c1d0e187a03e80573babcfb06bfb35cfbdf9
 
 build:
+  skip: true  # [py<38]
   number: 0
-  noarch: python
   script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python ${{ python_min }}.*
+    - python
     - hatch-jupyter-builder >=0.5
     - hatchling >=1.5.0
     - jupyterlab >=4.0.0,<5
     - hatch-nodejs-version >=0.3.2
     - pip
   run:
-    - python >=${{ python_min }}
+    - python
 
 tests:
   - python:
-      python_version: ${{ python_min }}.*
       pip_check: true
       imports: jupyterlab_eventlistener
   - script:
       - jupyter labextension list 2>&1 | rg -ie "jupyterlab-eventlistener-extension.*OK"
     requirements:
       run:
-        - python ${{ python_min }}.*
+        - python
         - jupyterlab >=4.0,<5
         - ripgrep
 
