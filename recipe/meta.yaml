@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/jupyterlab_eventlistener-${{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-','_') }}-{{ version }}.tar.gz
   sha256: 2f7a28add00db89d4f2c86485181c1d0e187a03e80573babcfb06bfb35cfbdf9
 
 build:
