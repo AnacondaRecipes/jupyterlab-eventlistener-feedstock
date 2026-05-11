@@ -25,17 +25,18 @@ requirements:
   run:
     - python
 
-tests:
-  - python:
-      pip_check: true
-      imports: jupyterlab_eventlistener
-  - script:
-      - jupyter labextension list 2>&1 | rg -ie "jupyterlab-eventlistener-extension.*OK"
-    requirements:
-      run:
-        - python
-        - jupyterlab >=4.0,<5
-        - ripgrep
+test:
+  imports:
+    - jupyterlab_eventlistener
+  requires:
+    - pip
+    - jupyterlab >=4.0,<5
+    - ripgrep
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - jupyter labextension list 2>&1 | rg -ie "jupyterlab-eventlistener-extension.*OK"  # [unix]
+    - jupyter labextension list 2>&1 | findstr /r /i "jupyterlab-eventlistener-extension.*OK"  # [win]
 
 about:
   summary: A JupyterLab Plugin for listening to Jupyter events in the frontend.
