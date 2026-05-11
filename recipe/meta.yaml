@@ -1,0 +1,60 @@
+{% set name = "jupyterlab-eventlistener" %}
+{% set version = "0.4.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-','_') }}-{{ version }}.tar.gz
+  sha256: 2f7a28add00db89d4f2c86485181c1d0e187a03e80573babcfb06bfb35cfbdf9
+
+build:
+  skip: true  # [py<38]
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python
+    - hatch-jupyter-builder >=0.5
+    - hatchling >=1.5.0
+    - jupyterlab >=4.0.0,<5
+    - hatch-nodejs-version >=0.3.2
+    - pip
+  run:
+    - python
+  run_constrained:
+    # from README
+    - jupyterlab >=4.0.0,<5
+
+test:
+  imports:
+    - jupyterlab_eventlistener
+  requires:
+    - pip
+    - jupyterlab >=4.0,<5
+    - ripgrep
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - jupyter labextension list 2>&1 | rg -ie "jupyterlab-eventlistener-extension.*OK"  # [unix]
+    - jupyter labextension list 2>&1 | findstr /r /i "jupyterlab-eventlistener-extension.*OK"  # [win]
+
+about:
+  home: https://github.com/Zsailer/jupyterlab-eventlistener
+  summary: A JupyterLab Plugin for listening to Jupyter events in the frontend.
+  description: |
+    A JupyterLab Plugin for listening to Jupyter events in the frontend.
+    The API mirrors the Listener API in the server-side (Python) Jupyter Events package.
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE
+  dev_url: https://github.com/Zsailer/jupyterlab-eventlistener
+  doc_url: https://github.com/Zsailer/jupyterlab-eventlistener
+
+extra:
+  recipe-maintainers:
+    - Zsailer
+    - jtpio
+    - brichet
