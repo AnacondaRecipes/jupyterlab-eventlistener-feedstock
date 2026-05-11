@@ -24,6 +24,9 @@ requirements:
     - pip
   run:
     - python
+  run_constrained:
+    # from README
+    - jupyterlab >=4.0.0,<5
 
 test:
   imports:
@@ -39,10 +42,16 @@ test:
     - jupyter labextension list 2>&1 | findstr /r /i "jupyterlab-eventlistener-extension.*OK"  # [win]
 
 about:
+  home: https://github.com/Zsailer/jupyterlab-eventlistener
   summary: A JupyterLab Plugin for listening to Jupyter events in the frontend.
-  homepage: https://github.com/Zsailer/jupyterlab-eventlistener/
+  description: |
+    A JupyterLab Plugin for listening to Jupyter events in the frontend.
+    The API mirrors the Listener API in the server-side (Python) Jupyter Events package.
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
+  dev_url: https://github.com/Zsailer/jupyterlab-eventlistener
+  doc_url: https://github.com/Zsailer/jupyterlab-eventlistener
 
 extra:
   recipe-maintainers:
